@@ -1,0 +1,61 @@
+CREATE DATABASE aluno_workshop;
+USE aluno_workshop;
+
+
+CREATE TABLE Aluno (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(150) NOT NULL,
+	ra VARCHAR(12) NOT NULL,
+	curso VARCHAR(100) NOT NULL,
+	data_nascimento DATE NOT NULL
+);
+
+
+CREATE TABLE Universidade (
+	id_uni INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(150) NOT NULL,
+    sigla VARCHAR(10) NOT NULL,
+    cidade VARCHAR(255) NOT NULL,
+    cnpj CHAR(14) NOT NULL,
+    eh_publica TINYINT NOT NULL,
+    data_criacao DATE NOT NULL,
+    renda DECIMAL(65,2) NOT NULL,
+    qtd_cursos TINYINT NOT NULL,
+    num_alunos INT NOT NULL
+);
+
+INSERT INTO Universidade (nome, sigla, cidade, cnpj, data_criacao, renda, eh_publica, qtd_cursos, num_alunos) VALUES
+	('Universidade Estadual de Maringá', 'UEM', 'Maringá', '79151312000156', '1969-11-06', 58921023.23, 1, 36, 30189),
+	('Universidade Federal do Paraná', 'UFPR', 'Curitiba', '75095679000149', '1912-12-19', 197438274.90, 1, 112, 38069);
+
+SELECT nome, sigla FROM Universidade;
+SELECT qtd_cursos FROM Universidade WHERE sigla = 'UEM';
+UPDATE Universidade
+SET qtd_cursos = 47
+WHERE id_uni = 1;
+
+CREATE TABLE Curso (
+	id_curso INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(100) NOT NULL,
+	codigo VARCHAR(20) NOT NULL,
+	data_criacao DATE NOT NULL,
+	qtd_vagas INT NOT NULL,
+	centro VARCHAR(40) NOT NULL,
+    id_universidade INT,
+    FOREIGN KEY (id_universidade) REFERENCES Universidade(id_uni)
+);
+
+CREATE TABLE Disciplina (
+	id_disciplina INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    carga_horaria INT NOT NULL,
+    semestre VARCHAR(10) NOT NULL,
+    id_curso INT NOT NULL,
+    FOREIGN KEY (id_curso) REFERENCES Curso(id_curso)
+);
+
+INSERT INTO Universidade (nome, sigla, cidade, cnpj, data_criacao, renda, eh_publica, qtd_cursos, num_alunos) VALUES
+('Unidade de Ensino Superior Inga', 'Uningá', 'Maringá', '01207056000184', '1999-12-02',2349781.29, 0, 49, 24065);
+
+INSERT INTO Curso (nome, codigo, data_criacao, qtd_vagas, centro, id_universidade) VALUES
+('Ciência da Computação', '3419', 1988-02-12, 44) 
